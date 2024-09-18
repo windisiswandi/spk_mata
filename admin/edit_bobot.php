@@ -1,3 +1,10 @@
+<?php
+    $id_bobot = $_GET['id_bobot'];
+    $bobot = mysqli_query($koneksi, "SELECT * From bobot where id_bobot=$id_bobot");
+    $bobot = mysqli_fetch_assoc($bobot);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,8 +101,8 @@
 	$sqlp = "SELECT * FROM penyakit ORDER BY kd_penyakit";
 	$qryp = mysqli_query($koneksi, $sqlp) 
 		    or die ("SQL Error: ".mysql_error());
-	while ($datap=mysql_fetch_array($qryp)) {
-		if ($datap['kd_penyakit']==$kdsakit) {
+	while ($datap=mysqli_fetch_array($qryp)) {
+		if (strtolower($datap['kd_penyakit'])==$bobot['kd_penyakit']) {
 			$cek ="selected";
 		}
 		else {
@@ -118,8 +125,8 @@
 	$sqlp = "SELECT * FROM gejala ORDER BY kd_gejala";
 	$qryg = mysqli_query($koneksi, $sqlp) 
 		    or die ("SQL Error: ".mysql_error());
-	while ($datag=mysql_fetch_array($qryg)) {
-		if ($datag['kd_gejala']==$kdgejala) {
+	while ($datag=mysqli_fetch_array($qryg)) {
+		if ($datag['kd_gejala']==$bobot['kd_gejala']) {
 			$cek ="selected";
 		}
 		else {

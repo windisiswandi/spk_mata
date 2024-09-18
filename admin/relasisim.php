@@ -28,7 +28,7 @@ elseif (trim($txtkdgejala)=="") { echo "Kode Gejala masih kosong, ulangi kembali
 $sql_cek = "SELECT * FROM bobot WHERE kd_penyakit='$txtkdpenyakit' AND kd_gejala='$txtkdgejala'";
 $qry_cek = mysqli_query($koneksi, $sql_cek) 
 		   or die ("Gagal Cek".mysql_error());
-$ada_cek = mysql_num_rows($qry_cek);
+$ada_cek = mysqli_num_rows($qry_cek);
 if ($ada_cek >=1) {
 echo"Bobot Telah Ada ..!";
 include "relasi.php";
@@ -37,7 +37,7 @@ include "relasi.php";
 else {
 $sqltes = "SELECT * FROM gejala WHERE kd_gejala='$txtkdgejala'";
 $qrytes = mysqli_query($koneksi, $sqltes);
-while ($data_tmp = mysql_fetch_array($qrytes)){
+while ($data_tmp = mysqli_fetch_array($qrytes)){
 
 $sql  = " INSERT INTO bobot (kd_penyakit,kd_gejala,bobot) VALUES ('$txtkdpenyakit','$txtkdgejala','$bobot')"; 
 }

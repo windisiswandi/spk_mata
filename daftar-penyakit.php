@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +47,7 @@
                 <tbody>
                     <?php
                     // Database connection using mysqli
-                    $mysqli = new mysqli("localhost", "root", "", "fuzzy_mata");
+                    $mysqli = new mysqli("localhost", "root", "", "pakarmata");
 
                     // Check connection
                     if ($mysqli->connect_error) {

@@ -23,7 +23,7 @@ $definisi=$_POST['definisi'];
 $solusi=$_POST['solusi'];
 //cek keberadaan data
 $sqlrs=mysqli_query($koneksi, "SELECT kd_penyakit FROM penyakit WHERE kd_penyakit='$kd_penyakit'");
-$rs=mysql_num_rows($sqlrs);
+$rs=mysqli_num_rows($sqlrs);
 if($rs==0){
 	$perintah="INSERT INTO penyakit(kd_penyakit,nama_penyakit,definisi,solusi)VALUES('$kd_penyakit','$nama_penyakit','$definisi','$solusi')";
 	$berhasil=mysqli_query($koneksi,$perintah);
@@ -38,7 +38,7 @@ if($rs==0){
 	}else{
 	echo"<table style='margin-top:150px;' align='center'><tr><td>";
 	echo"<div style='width:500px; height:50px auto; border:1px dashed #CCC; color:#F90; padding:3px 3px 3px 3px;'>";
-	echo "<center><font>Kode Gejala $kd_gejala <strong>Telah ada di database, Masukkan Kode Unik..!</strong></font></center><br>";
+	echo "<center><font>Kode Gejala $kd_penyakit <strong>Telah ada di database, Masukkan Kode Unik..!</strong></font></center><br>";
 	echo "<center><a href='../admin/haladmin.php?top=penyakit_solusi.php'>Kembali</a></center>";
 	echo"</div>";
 	echo"</td></tr></table>";

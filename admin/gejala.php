@@ -233,7 +233,7 @@
         include "../koneksi.php";
         $sql = "SELECT * FROM gejala ORDER BY kd_gejala";
         $qry = mysqli_query($koneksi, $sql) or die("SQL Error: " . mysql_error());
-        while ($data = mysql_fetch_array($qry)) {
+        while ($data = mysqli_fetch_array($qry)) {
         ?>
             <tr>
                 <td><?php echo htmlspecialchars($data['kd_gejala']); ?></td>

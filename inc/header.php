@@ -25,16 +25,26 @@
                 </li>
             </ul>
             <?php if(isset($_SESSION['username'])) : ?>
-                <div class="d-flex">
-                    <a><span class="l"></span><span class="r"></span><span
+                <div class="row text-center px-4">
+                    <div class="col-sm-9">
+                        <a><span class="l"></span><span class="r"></span><span
                             class="t">Hallo! <?= $_SESSION['username']; ?></span>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="logout.php"><div>logout</div></a>
+                    </div>
+                    
+                </div> 
             <?php else: ?>
-                <div class="d-flex">
-                    <a href="login.php"><span class="l"></span><span class="r"></span><span
-                            class="t">Login</span>
-                    </a>
+                <div class="row text-center">
+                    <div class="col-sm-6">
+                        <a href="login.php">Login</a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="pasien_add_fm.php"><div>register</div></a>
+                    </div>
+                    
                 </div>  
             <?php endif; ?>
             

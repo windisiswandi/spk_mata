@@ -15,7 +15,7 @@ body { margin:100px;}
 </html>
 <?php
 include "../koneksi.php";
-$aksi=$_GET['aksi'];
+// $aksi=$_GET['aksi'];
 $kdhapus = $_GET['kdhapus'];
 if ($kdhapus!="") {
 	$sql = "DELETE FROM gejala WHERE kd_gejala='$kdhapus'";

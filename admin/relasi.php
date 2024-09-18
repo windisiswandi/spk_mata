@@ -214,7 +214,7 @@
                                     include "../koneksi.php";
                                     $sqlp = "SELECT * FROM gejala ORDER BY kd_gejala";
                                     $qryg = mysqli_query($koneksi, $sqlp) or die("SQL Error: ".mysql_error());
-                                    while ($datag = mysql_fetch_array($qryg)) {
+                                    while ($datag = mysqli_fetch_array($qryg)) {
                                         $cek = ($datag['kd_gejala'] == $kdgejala) ? "selected" : "";
                                         $dt = $datag['gejala'];
                                         $tek = substr($dt, 0, 80);
@@ -243,7 +243,7 @@
                                 <?php
                                     $sqlp = "SELECT * FROM penyakit ORDER BY kd_penyakit";
                                     $qryp = mysqli_query($koneksi, $sqlp) or die("SQL Error: ".mysql_error());
-                                    while ($datap = mysql_fetch_array($qryp)) {
+                                    while ($datap = mysqli_fetch_array($qryp)) {
                                         $cek = ($datap['kd_penyakit'] == $kdsakit) ? "selected" : "";
                                         echo "<option value='{$datap['kd_penyakit']}' $cek>{$datap['kd_penyakit']} | {$datap['nama_penyakit']}</option>";
                                     }
@@ -272,7 +272,7 @@
                 <?php
                     $query = mysqli_query($koneksi, "SELECT bobot.kd_gejala, bobot.kd_penyakit, penyakit.kd_penyakit, penyakit.nama_penyakit AS penyakit FROM bobot, penyakit WHERE bobot.kd_penyakit=penyakit.kd_penyakit GROUP BY bobot.kd_penyakit") or die(mysql_error());
                     $no = 0;
-                    while ($row = mysql_fetch_array($query)) {
+                    while ($row = mysqli_fetch_array($query)) {
                         $idpenyakit = $row['kd_penyakit'];
                         $no++;
                 ?>
@@ -282,7 +282,7 @@
                     <td>
                         <?php
                             $query2 = mysqli_query($koneksi,"SELECT bobot.id_bobot, bobot.kd_gejala, bobot.bobot, bobot.kd_penyakit, gejala.gejala AS namagejala FROM bobot, gejala WHERE bobot.kd_penyakit='$idpenyakit' AND gejala.kd_gejala=bobot.kd_gejala") or die(mysql_error());
-                            while ($row2 = mysql_fetch_array($query2)) {
+                            while ($row2 = mysqli_fetch_array($query2)) {
                                 echo "<div style='margin-bottom: 5px; border: 1px solid #ddd; padding: 5px; background: #f9f9f9; border-radius: 4px;'>
                                         <span style='display: inline-block; width: 50px;'>{$row2['kd_gejala']}</span>
                                         <span style='display: inline-block; width: 300px;'>{$row2['namagejala']}</span>

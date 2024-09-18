@@ -142,7 +142,7 @@
                                 JOIN penyakit ON hasil.kd_penyakit = penyakit.kd_penyakit";
                         $qry = mysqli_query($koneksi, $sql) or die ("SQL Error: ".mysql_error());
                         $no = 0;
-                        while ($data = mysql_fetch_array($qry)) {
+                        while ($data = mysqli_fetch_array($qry)) {
                             $no++;
                         ?>
                         <tr>

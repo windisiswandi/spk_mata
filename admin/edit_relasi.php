@@ -21,7 +21,7 @@
 	$sqlp = "SELECT * FROM penyakit_solusi ORDER BY kd_penyakit";
 	$qryp = mysqli_query($koneksi, $sqlp) 
 		    or die ("SQL Error: ".mysql_error());
-	while ($datap=mysql_fetch_array($qryp)) {
+	while ($datap=mysqli_fetch_array($qryp)) {
 		if ($datap['kd_penyakit']==$kdsakit) {
 			$cek ="selected";
 		}
@@ -43,7 +43,7 @@
 	$sqlp = "SELECT * FROM gejala ORDER BY kd_gejala";
 	$qryg = mysqli_query($sqlp, $koneksi) 
 		    or die ("SQL Error: ".mysql_error());
-	while ($datag=mysql_fetch_array($qryg)) {
+	while ($datag=mysqli_fetch_array($qryg)) {
 		if ($datag['kd_gejala']==$kdgejala) {
 			$cek ="selected";
 		}

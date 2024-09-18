@@ -22,8 +22,8 @@ $jalankanperintahnya = mysqli_query($koneksi, $perintahnya);
 $ada_apa_enggak = mysqli_num_rows($jalankanperintahnya);
 if ($ada_apa_enggak >= 1 )
 {
-	$_SESSION['user_forum']=$username;
-	$_SESSION['user_password']=$password;
+	$_SESSION['username']=$username;
+	$_SESSION['role']='admin';
 	
 header("location: haladmin.php?top=home.php");
 }

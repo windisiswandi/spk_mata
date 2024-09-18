@@ -102,7 +102,7 @@
     if ($kdubah !== "") {
         $sql = "SELECT * FROM gejala WHERE kd_gejala='$kdubah'";
         $qry = mysqli_query($koneksi, $sql) or die("SQL ERROR: " . mysql_error());
-        $data = mysql_fetch_array($qry);
+        $data = mysqli_fetch_array($qry);
         
         $kd_gejala = htmlspecialchars($data['kd_gejala']);
         $gejala = htmlspecialchars($data['gejala']);

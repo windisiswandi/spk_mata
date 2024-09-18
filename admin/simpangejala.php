@@ -20,7 +20,7 @@ include "../koneksi.php";
 $kd_gejala=$_POST['kd_gejala'];
 $gejala=$_POST['gejala'];
 $sqlrs=mysqli_query($koneksi, "SELECT kd_gejala FROM gejala WHERE kd_gejala='$kd_gejala'");
-$rs=mysql_num_rows($sqlrs);
+$rs=mysqli_num_rows($sqlrs);
 if($rs==0){
 	// jika data nol maka simpan data
 	$perintah="INSERT INTO gejala (kd_gejala,gejala) VALUES ('$kd_gejala','$gejala')";

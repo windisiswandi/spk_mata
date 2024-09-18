@@ -4,8 +4,8 @@ $kdubah = $_GET['kdubah'];
 if($kdubah !=""){
 	#menampilkan data
 	$sql = "SELECT * FROM penyakit WHERE kd_penyakit='$kdubah'";
-	$qry = mysqli_query ($sql, $koneksi)or die ("SQL ERROR".mysql_error());
-	$data = mysql_fetch_array($qry);
+	$qry = mysqli_query ($koneksi, $sql)or die ("SQL ERROR".mysql_error());
+	$data = mysqli_fetch_array($qry);
 	#samakan dengan variabel form
 	$in_id_penyakit = $data['kd_penyakit'];
 	$in_penyakit = $data['nama_penyakit'];

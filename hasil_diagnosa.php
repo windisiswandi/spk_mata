@@ -79,7 +79,8 @@
             <h4>Identitas Pasien:</h4>
             <?php
             include "koneksi.php";
-            $query_pasien = mysqli_query($koneksi, "SELECT * FROM pasien ORDER BY id_pasien DESC");
+            $username = $_SESSION['username'];
+            $query_pasien = mysqli_query($koneksi, "SELECT * FROM pasien where username='$username'");
             $data_pasien = mysqli_fetch_array($query_pasien);
             ?>
             <table class="table table-bordered">
@@ -156,7 +157,7 @@
             }
             ?>
         </div>
-        <a class="btn btn-primary" href="proses-diagnosa.php?top=konsultasifm.php"><strong>Ulangi Diagnosa</strong></a>
+        <a class="btn btn-primary" href="konsultasifm.php"><strong>Ulangi Diagnosa</strong></a>
     </div>
     <?php require ('inc/footer.php'); ?>
     <!-- Add Bootstrap JS and dependencies -->

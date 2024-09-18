@@ -57,8 +57,8 @@
     $gejala = $_REQUEST['gejala'];
 
     // Escape special characters to prevent SQL injection
-    $kd_gejala = mysql_real_escape_string($kd_gejala);
-    $gejala = mysql_real_escape_string($gejala);
+    $kd_gejala = mysqli_real_escape_string($koneksi, $kd_gejala);
+    $gejala = mysqli_real_escape_string($koneksi, $gejala);
 
     $sql = "UPDATE gejala SET gejala='$gejala' WHERE kd_gejala='$kd_gejala'";
     $result = mysqli_query($koneksi, $sql) or die ("SQL Error: " . mysql_error());

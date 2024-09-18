@@ -1,3 +1,13 @@
+<?php session_start(); 
+if (isset($_SESSION['username'])) {
+    if ($_SESSION['role'] != "admin") {
+        header("Location: ../index.php");
+    }else {
+        header("Location: haladmin.php");
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
