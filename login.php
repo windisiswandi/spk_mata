@@ -1,0 +1,146 @@
+<?php
+session_start();
+include "koneksi.php";
+
+if (isset($_POST['username'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    $passwordhash = md5($password);  // mengenkripsikannya untuk dicocokan dengan database
+    $perintahnya = "select username, password from pasien where username = '$username' and PASSWORD = '$passwordhash'";
+    $jalankanperintahnya = mysqli_query($koneksi, $perintahnya);
+    $ada_apa_enggak = mysqli_num_rows($jalankanperintahnya);
+    if ($ada_apa_enggak >= 1 )
+    {
+        $_SESSION['username']=$username;
+        $_SESSION['rol']="pasien";   
+        
+        header("location: index.php");
+    }
+    else {
+        echo "<div align=center style='margin-top:200px;'><center><font color='red'><strong>Username dan Password tidak sesuai</strong></font></center></div>";
+        echo "<center><a href='login.php'>Coba Lagi</a></center>";   
+        die;   
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .login-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .login-container label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #666;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .login-container input[type="submit"],
+    .login-container input[type="reset"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .login-container input[type="submit"]:hover,
+    .login-container input[type="reset"]:hover {
+        background-color: #0056b3;
+    }
+
+    .login-container a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .login-container a:hover {
+        text-decoration: underline;
+    }
+    </style>
+    <script>
+    function validateForm(event) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        if (!username) {
+            alert('Please enter your username.');
+            event.preventDefault();
+            return false;
+        }
+        if (!password) {
+            alert('Please enter your password.');
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+
+    function focusUsername() {
+        document.getElementById('username').focus();
+    }
+</script>
+</head>
+
+<body onload="focusUsername();">
+    <div class="login-container">
+        <h2>Halaman Login Pasien</h2>
+        <form method="post" onsubmit="return validateForm(event);">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+
+            <input type="submit" value="Login">
+            <input type="reset" value="Reset">
+        </form>
+        <p>Belum punya akun? <a href="pasien_add_fm.php">register</a></p>
+        <p><a href="index.php">Back to Home</a></p>
+    </div>
+</body>
+
+</html>
