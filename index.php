@@ -89,7 +89,7 @@
         <div class="row">
             <div class="col-lg-12 bg-white shadow p-4 rounded text-center">
                 <a style="background-color:#F90; color:#ffffff; padding:10px 20px; border:2px dashed #333; display:inline-block; text-decoration:none; font-weight:bold;"
-                    href="proses-diagnosa.php?top=pasien_add_fm.php" class="active">
+                    href="konsultasifm.php" class="active">
                     Mulai Diagnosa &raquo;&raquo;
                 </a>
             </div>

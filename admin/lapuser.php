@@ -105,7 +105,7 @@
     <script type="text/javascript">
     function konfirmasi(id_user) {
         var kd_hapus = id_user;
-        var url_str = "hapus_user.php?id_user=" + kd_hapus;
+        var url_str = "hapus_user.php?id_hasil=" + kd_hapus;
         var r = confirm("Yakin ingin menghapus data..? " + kd_hapus);
         if (r == true) {
             window.location = url_str;

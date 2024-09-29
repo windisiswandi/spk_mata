@@ -24,20 +24,34 @@
         <?php
         include "koneksi.php";
         // kosongkan tabel tmp_penyakit
+        // var_dump($_POST['gejala']); die;
         $kosong_tmp_penyakit = mysqli_query($koneksi, "DELETE FROM tmp_penyakit");
         echo "<hr>";
+        $user_gejala = implode("','", $_POST['gejala']);
+        $bobot_gejala = mysqli_query($koneksi, "SELECT * FROM bobot WHERE kd_gejala IN ('$user_gejala')");
+
+        // while ($row = mysqli_fetch_array($bobot_gejala)) {
+        //     $kd_gejala = $row['kd_gejala'];
+        //     $kd_penyakit = $row['kd_penyakit'];
+        //     $bobot = $row['bobot'];
+        //     $add_tmp_gejala = mysqli_query($koneksi, "INSERT INTO tmp_gejala (kd_gejala, bobot) VALUES ('$kd_gejala', $bobot)");
+        // }
 
         $sqlpenyakit = "SELECT * FROM bobot GROUP BY kd_penyakit";
         $querypenyakit = mysqli_query($koneksi, $sqlpenyakit);
         $Similarity = 0;
 
         echo "<div style='display:none;'>";
-        while ($rowpenyakit = mysqli_fetch_array($querypenyakit)) {
-            $kd_pen = $rowpenyakit['kd_penyakit'];
-            $query_gejala = mysqli_query($koneksi, "SELECT * FROM bobot WHERE kd_penyakit='$kd_pen'");
+        while ($rowpenyakit = mysqli_fetch_array($bobot_gejala)) {
+            $kd_gejala = $rowpenyakit['kd_gejala'];
+            $kd_penyakit = $rowpenyakit['kd_penyakit'];
+            $bobot = $rowpenyakit['bobot'];
+            $add_tmp_gejala = mysqli_query($koneksi, "INSERT INTO tmp_gejala (kd_gejala, bobot) VALUES ('$kd_gejala', $bobot)");
+            $query_gejala = mysqli_query($koneksi, "SELECT * FROM bobot WHERE kd_penyakit='$kd_penyakit'");
+            
             $var1 = 0;
             $var2 = 0;
-            $querySUM = mysqli_query($koneksi, "SELECT sum(bobot) AS jumlahbobot FROM bobot WHERE kd_penyakit='$kd_pen'");
+            $querySUM = mysqli_query($koneksi, "SELECT sum(bobot) AS jumlahbobot FROM bobot WHERE kd_penyakit='$kd_penyakit' GROUP BY kd_penyakit");
             $resSUM = mysqli_fetch_array($querySUM);
             $SUMbobot = $resSUM['jumlahbobot'];
             while ($row_gejala = mysqli_fetch_array($query_gejala)) {
@@ -59,7 +73,7 @@
                 $Nilai_Penyebut = $Nilai_bawah;
                 $Similarity = $Nilai_Pembilang / $Nilai_Penyebut;
             }
-            mysqli_query($koneksi, "INSERT INTO tmp_penyakit(kd_penyakit, nilai) VALUES ('$kd_pen', '$var1')");
+            mysqli_query($koneksi, "INSERT INTO tmp_penyakit(kd_penyakit, nilai) VALUES ('$kd_penyakit', '$var1')");
             $nilaiMin = mysqli_query($koneksi, "SELECT kd_penyakit, MAX(nilai) AS NilaiAkhir FROM tmp_penyakit GROUP BY nilai ORDER BY nilai DESC");
             $rowMin = mysqli_fetch_array($nilaiMin);
             $rendah = $rowMin['NilaiAkhir'];
@@ -78,7 +92,6 @@
         <div class="my-4">
             <h4>Identitas Pasien:</h4>
             <?php
-            include "koneksi.php";
             $username = $_SESSION['username'];
             $query_pasien = mysqli_query($koneksi, "SELECT * FROM pasien where username='$username'");
             $data_pasien = mysqli_fetch_array($query_pasien);
@@ -106,12 +119,11 @@
 
             <h4>Gejala yang diinputkan:</h4>
             <?php
-            $query_gejala_input = mysqli_query($koneksi, "SELECT gejala.gejala AS namagejala, tmp_gejala.kd_gejala FROM gejala, tmp_gejala WHERE tmp_gejala.kd_gejala=gejala.kd_gejala");
-            $nogejala = 0;
             echo "<ul>";
-            while ($row_gejala_input = mysqli_fetch_array($query_gejala_input)) {
-                $nogejala++;
-                echo "<li>$nogejala. " . $row_gejala_input['namagejala'] . "</li>";
+            foreach($_POST['gejala'] as $kd_gejala) {
+                $query_gejala_input = mysqli_query($koneksi, "SELECT * FROM gejala WHERE kd_gejala='$kd_gejala'");
+                $row_gejala_input = mysqli_fetch_array($query_gejala_input);
+                echo "<li>".$row_gejala_input['gejala'] . "</li>";
             }
             echo "</ul>";
             ?>
@@ -134,19 +146,19 @@
                         echo "<p>" . $row_penyasol['definisi'] . "</p>";
                         echo "<p><strong>Solusi Pengobatan:</strong> " . $row_penyasol['solusi'] . "</p>";
                         echo "</div>";
-                        $query_temp = mysqli_query($koneksi, "SELECT * FROM pasien ORDER BY id_pasien DESC") or die(mysqli_error());
+                        $query_temp = mysqli_query($koneksi, "SELECT * FROM pasien where username='$username'") or die(mysqli_error());
                         $row_pasien = mysqli_fetch_array($query_temp) or die(mysqli_error());
                         $id_pasien = $row_pasien['id_pasien'];
                         $tanggal = $row_pasien['tanggal'];
                         $query_hasil = "INSERT INTO hasil(id_pasien, kd_penyakit, tanggal) VALUES ('$id_pasien', '$kd_pen2', '$tanggal')";
-                        mysqli_query($query_hasil) or die(mysqli_error());
+                        mysqli_query($koneksi, $query_hasil) or die(mysqli_error());
                     } else {
                         echo "<div class='alert alert-warning'>";
                         echo "<h5>Pasien Menderita Penyakit: " . $row_penyasol['nama_penyakit'] . " Sebesar " . $persen . "%</h5>";
                         echo "<p>" . $row_penyasol['definisi'] . "</p>";
                         echo "<p><strong>Solusi Pengobatan:</strong> " . $row_penyasol['solusi'] . "</p>";
                         echo "</div>";
-                        $query_temp = mysqli_query($koneksi, "SELECT * FROM pasien ORDER BY id_pasien DESC") or die(mysqli_error());
+                        $query_temp = mysqli_query($koneksi, "SELECT * FROM pasien where username='$username'") or die(mysqli_error());
                         $row_pasien = mysqli_fetch_array($query_temp) or die(mysqli_error());
                         $id_pasien = $row_pasien['id_pasien'];
                         $tanggal = $row_pasien['tanggal'];

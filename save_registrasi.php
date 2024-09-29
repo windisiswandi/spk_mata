@@ -23,13 +23,13 @@ $sql  = " INSERT INTO pasien (nama,username,password,kelamin,umur,alamat,tanggal
 mysqli_query($koneksi, $sql) 
 		or die ("SQL Error 2".mysqli_error());
 
-$sqlhapus = "DELETE FROM tmp_penyakit WHERE noip='$NOIP'";
+$sqlhapus = "DELETE FROM tmp_penyakit WHERE id='$NOIP'";
 mysqli_query($koneksi, $sqlhapus) or die ("SQL Error 1".mysqli_error());
 
-$sqlhapus2 = "DELETE FROM tmp_analisa WHERE noip='$NOIP'";
+$sqlhapus2 = "DELETE FROM tmp_analisa WHERE id='$NOIP'";
 mysqli_query($koneksi, $sqlhapus2) or die ("SQL Error 2".mysqli_error());
 		
-$sqlhapus3 = "DELETE FROM tmp_gejala WHERE noip='$NOIP'";
+$sqlhapus3 = "DELETE FROM tmp_gejala WHERE id='$NOIP'";
 mysqli_query($koneksi, $sqlhapus3) or die ("SQL Error 3".mysqli_error());
 #	$sqlhapus4 = "DELETE FROM analisa_hasil WHERE noip='$NOIP'";
 #	mysqli_query($sqlhapus4, $koneksi) or die ("SQL Error 4".mysqli_error());

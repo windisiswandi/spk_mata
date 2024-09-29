@@ -29,12 +29,12 @@
         include "koneksi.php";
         $NOIP = $_SERVER['REMOTE_ADDR'];
         # Periksa apabila sudah ditemukan
-        $sql_cekh = "SELECT * FROM tmp_penyakit WHERE noip='$NOIP' GROUP BY kd_penyakit";
+        $sql_cekh = "SELECT * FROM tmp_penyakit WHERE id='$NOIP' GROUP BY kd_penyakit";
         $qry_cekh = mysqli_query($koneksi, $sql_cekh);
         $hsl_cekh = mysqli_num_rows($qry_cekh);
         if ($hsl_cekh == 1) {
             $hsl_data = mysqli_fetch_array($qry_cekh);
-            $sql_pasien = "SELECT * FROM tmp_pasien WHERE noip='$NOIP' order by id";
+            $sql_pasien = "SELECT * FROM tmp_pasien WHERE id='$NOIP' order by id";
             $qry_pasien = mysqli_query($koneksi, $sql_pasien);
             $hsl_pasien = mysqli_fetch_array($qry_pasien);
             $sql_in = "INSERT INTO analisa_hasil SET
@@ -43,23 +43,23 @@
                       umur='$hsl_pasien[umur]',
                       alamat='$hsl_pasien[alamat]',
                       kd_penyakit='$hsl_data[kd_penyakit]',
-                      noip='$hsl_pasien[noip]',
+                      id='$hsl_pasien[noip]',
                       tanggal='$hsl_pasien[tanggal]'";
             mysqli_query($koneksi, $sql_in);               
             echo "<meta http-equiv='refresh' content='0; url=?top=AnalisaHasil.php'>";
             exit;
         }
-        $sqlcek = "SELECT * FROM tmp_analisa WHERE noip='$NOIP'";
+        $sqlcek = "SELECT * FROM tmp_analisa WHERE id='$NOIP'";
         $qrycek = mysqli_query($koneksi, $sqlcek);
         $datacek = mysqli_num_rows($qrycek);
         if ($datacek >= 1) {
             // Seandainya tmp kosong
             $sqlg = "SELECT gejala.* FROM gejala,tmp_analisa 
                      WHERE gejala.kd_gejala=tmp_analisa.kd_gejala 
-                     AND tmp_analisa.noip='$NOIP' 
+                     AND tmp_analisa.id='$NOIP' 
                      AND NOT tmp_analisa.kd_gejala 
                      IN(SELECT kd_gejala 
-                         FROM tmp_gejala WHERE noip='$NOIP')
+                         FROM tmp_gejala WHERE id='$NOIP')
                      ORDER BY gejala.kd_gejala LIMIT 1";
             $qryg = mysqli_query($koneksi, $sqlg) or die ("Gagal $qryg : ".mysqli_error());
             $datag = mysqli_fetch_array($qryg) or die ("Gagal datag : ".mysqli_error());
@@ -80,7 +80,8 @@
             <div class="form-group">
                 <div class="row">
                     <?php
-                    include "koneksi.php";
+                    $kosong_tmp_gejala = mysqli_query($koneksi,"DELETE FROM tmp_gejala");
+                    $kosong_tmp_analisa = mysqli_query($koneksi,"DELETE FROM tmp_analisa");
                     $kosong_tmp_penyakit = mysqli_query($koneksi,"DELETE FROM tmp_penyakit");
                     $query = mysqli_query($koneksi,"SELECT * FROM gejala") or die("Query Error..!" . mysqli_error());
                     while ($row = mysqli_fetch_array($query)) {

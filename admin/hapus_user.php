@@ -13,15 +13,15 @@ div { border:1px dashed #666; background-color:#CCC; padding:10px;}
 <div>
 <?php
 include "../koneksi.php";
-$id_user=$_GET['id_user'];
-$query=mysqli_query($koneksi, "DELETE FROM hasil WHERE id='$id_user'")or die(mysql_error());
+$id_user=$_GET['id_hasil'];
+$query=mysqli_query($koneksi, "DELETE FROM hasil WHERE id_hasil='$id_user'")or die(mysql_error());
 if($query){
 	echo "<center><font color='#0000ff'>DATA BERHASIL DIHAPUS..!</font></center>";
 	echo "<center><a href='../admin/haladmin.php?top=LapUser.php'>OK</a></center>";
 	//header("location: ../admin/haladmin.php?top=Relasi.php");
 	}else{
 		echo "<center><font color='#ff0000'>Data Tidak dapat dihapus</font></center>";
-		echo "<center><a href='../admin/haladmin.php?top=LapUser.php'>Kembali</a></center>";
+		echo "<center><a href='../admin/haladmin.php?top=lapuser.php'>Kembali</a></center>";
 		}
 ?>
 </div>
